@@ -7,7 +7,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from apps.recipes.forms import RecipeCreateOrUpdateForm
-from apps.recipes.models import (FavoritesRecipes, Recipe, ShoppingList,
-                                SubscriptionsUsers, Tag, User
+from recipe.models import (Recipe, ShoppingList,
+                                Follow, Tag, User
 )
+
+
+def index(request):
+    recipes = Recipe.objects.all()
+    return render(request, "index.html", {"recipes": recipes})
