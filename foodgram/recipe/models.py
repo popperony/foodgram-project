@@ -44,6 +44,9 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name="following"
         )
+    def is_following(self, author_id):
+        response = Follow.objects.select_related('user', 'author').filter(user=self.id, author=author_id).exists()
+        return response
 
 
 class FollowRecipe(models.Model):
