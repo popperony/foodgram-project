@@ -6,14 +6,20 @@ User = get_user_model()
 
 
 class Ingredient(models.Model):
-    ing_name = models.CharField(max_length=255, unique=True)
+    ing_name = models.CharField(max_length=255, null=True, blank=True)
     dimension = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.ing_name
 
 
 class Tag(models.Model):
     tag_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=50, null=True, unique=True)
     color = models.CharField(max_length=30, null=True)
+
+    def __str__(self):
+        return self.tag_name
 
 
 class Recipe(models.Model):
@@ -25,12 +31,22 @@ class Recipe(models.Model):
     pub_date = models.DateTimeField("date published", auto_now_add=True)
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredients')
     tags = models.ManyToManyField(Tag, blank=True)
+    slug = models.SlugField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-pub_date']
 
 
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='Ingredient')
     amount = models.IntegerField()
+
+    def __str__(self):
+        return self.ingredient.dimension
 
 
 class Follow(models.Model):
@@ -44,16 +60,22 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name="following"
         )
-    def is_following(self, author_id):
-        response = Follow.objects.select_related('user', 'author').filter(user=self.id, author=author_id).exists()
-        return response
+
+    def __str__(self):
+        return self.user.username
 
 
 class FollowRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     follow_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.follow_recipe.title
+
 
 class ShoppingList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Shopper')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='Shopping_list')
+
+    def __str__(self):
+        return self.recipe.title

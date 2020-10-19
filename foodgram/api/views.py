@@ -1,17 +1,58 @@
-from django.shortcuts import render
-from rest_framework import status, viewsets, filters, views
-from rest_framework.response import Response
-from rest_framework import permissions
+from django.views.generic import View
 from recipe.models import Ingredient, Recipe, FollowRecipe, Follow, ShoppingList
+import json
 
 
-class FollowViewSet(viewsets.ModelViewSet):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['=following__username', '=user__username']
+class Ingredients(View):
+    def get(self, request):
+        text = request.GET['query']
+        ingredients = list(Ingredient.objects.filter(
+            title__icontains=text).values('title', 'dimension'))
+        return JsonResponse(ingredients, safe=False)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
+class Favorites(View):
+    def post(self, request):
+        recipe_id = json.loads(request.body)['id']
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        FollowRecipe.objects.get_or_create(
+            user=request.user, recipe=recipe)
+        return JsonResponse({'success': True})
+
+    def delete(self, request, recipe_id):
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        user = get_object_or_404(User, username=request.user.username)
+        obj = get_object_or_404(FollowRecipe, user=user, recipe=recipe)
+        obj.delete()
+        return JsonResponse({'success': True})
+
+
+class Purchpurchases(View):
+    def post(self, request):
+        recipe_id = json.loads(request.body)['id']
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        ShoppingList.objects.get_or_create(user=request.user, recipe=recipe)
+        return JsonResponse({'success': True})
+
+    def delete(self, request, recipe_id):
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        user = get_object_or_404(User, username=request.user.username)
+        obj = get_object_or_404(ShoppingList, user=user, recipe=recipe)
+        obj.delete()
+        return JsonResponse({'success': True})
+
+
+class Subscription(View):
+    def post(self, request):
+        author_id = json.loads(request.body)['id']
+        author = get_object_or_404(User, id=author_id)
+        Follow.objects.get_or_create(
+            user=request.user, author=author)
+        return JsonResponse({'success': True})
+
+    def delete(self, request, author_id):
+        user = get_object_or_404(User, username=request.user.username)
+        author = get_object_or_404(User, id=author_id)
+        obj = get_object_or_404(Follow, user=user, author=author)
+        obj.delete()
+        return JsonResponse({'success': True})
