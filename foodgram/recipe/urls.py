@@ -12,6 +12,6 @@ urlpatterns = [
     path('recipe/<username>/<int:recipe_id>/', views.recipe_view, name='recipe_view'),
     path("follow/<username>/", views.follow, name='follow'),
     path('followrecipe/<username>/', views.follow_recipe, name='followrecipe'),
-    path('shopping-list/', views.ShoppingList, name='shopping-list'),
+    path('shopping-list/', views.shopping_list, name='shopping-list'),
     path('download/', views.download, name='download'),
 ]

@@ -1,4 +1,4 @@
-{% load templates_extra %}
+{% load user_filter %}
                 
                 {% if user.is_authenticated %}
                 {% if recipe|is_shop:user %}

@@ -61,7 +61,7 @@ def new_recipe(request):
 def recipe_edit(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     if request.user != recipe.author:
-        return redirect('recipes:index')
+        return redirect('index')
     if request.method == "POST":
         form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
         ingredients = get_ingredients(request)
@@ -76,7 +76,7 @@ def recipe_edit(request, recipe_id):
                     ingredient=Ingredient.objects.get(name=f'{item}'),
                     recipe=recipe)
             form.save_m2m()
-            return redirect('recipes:index')
+            return redirect('index')
     form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
     return render(request, 'change_recipe.html',
         {'form': form, 'recipe': recipe, })
@@ -94,7 +94,7 @@ def recipe_delete(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     if request.user == recipe.author:
         recipe.delete()
-    return redirect('recipes:index')
+    return redirect('index')
 
 
 @login_required
@@ -114,7 +114,7 @@ def follow_recipe(request, username):
     recipe_list = Recipe.objects.filter(author=request.user.id).all()
     if tags:
         recipe_list = recipe_list.filter(
-            tags__value__in=tags).distinct()
+            tags=tags).distinct()
     paginator = Paginator(recipe_list, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)

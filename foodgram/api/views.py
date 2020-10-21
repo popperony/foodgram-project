@@ -41,7 +41,6 @@ class Purchpurchases(View):
         obj.delete()
         return JsonResponse({'success': True})
 
-
 class Subscription(View):
     def post(self, request):
         author_id = json.loads(request.body)['id']

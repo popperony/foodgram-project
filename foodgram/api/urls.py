@@ -9,6 +9,6 @@ urlpatterns = [
     path('favorites/<int:recipe_id>/', views.Favorites.as_view(), name='remove_favor'),
     path('subscriptions/', views.Subscription.as_view(), name='add_subs'),
     path('subscriptions/<int:author_id>/', views.Subscription.as_view(), name='remove_subs'),
-    path('purchpurchases/', views.Purchpurchases.as_view(), name='add_to_shop'),
-    path('purchpurchases/<int:recipe_id>/', views.Purchpurchases.as_view(), name='remove_from_shop'),
+    path('purchases/', views.Purchpurchases.as_view(), name='add_to_shop'),
+    path('purchases/<int:recipe_id>/', views.Purchpurchases.as_view(), name='remove_from_shop'),
 ]
