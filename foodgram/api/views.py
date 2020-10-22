@@ -1,13 +1,14 @@
+from django.http import JsonResponse
 from django.views.generic import View
-from recipe.models import Ingredient, Recipe, FollowRecipe, Follow, ShoppingList
+from recipe.models import User, Ingredient, Recipe, FollowRecipe, Follow, ShoppingList
+from django.shortcuts import get_object_or_404
 import json
 
 
 class Ingredients(View):
     def get(self, request):
         text = request.GET['query']
-        ingredients = list(Ingredient.objects.filter(
-            title__icontains=text).values('title', 'dimension'))
+        ingredients = list(Ingredient.objects.filter(title__icontains=text).values('ing_name', 'dimension'))
         return JsonResponse(ingredients, safe=False)
 
 
@@ -15,8 +16,7 @@ class Favorites(View):
     def post(self, request):
         recipe_id = json.loads(request.body)['id']
         recipe = get_object_or_404(Recipe, id=recipe_id)
-        FollowRecipe.objects.get_or_create(
-            user=request.user, recipe=recipe)
+        FollowRecipe.objects.get_or_create(user=request.user, follow_recipe=recipe)
         return JsonResponse({'success': True})
 
     def delete(self, request, recipe_id):
@@ -27,7 +27,7 @@ class Favorites(View):
         return JsonResponse({'success': True})
 
 
-class Purchpurchases(View):
+class Purchases(View):
     def post(self, request):
         recipe_id = json.loads(request.body)['id']
         recipe = get_object_or_404(Recipe, id=recipe_id)

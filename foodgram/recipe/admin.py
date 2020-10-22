@@ -41,7 +41,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'tag_name', 'slug')
+    list_display = ('pk', 'tag_name', 'value')
     empty_value_display = 'None'
 
 

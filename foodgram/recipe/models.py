@@ -15,7 +15,7 @@ class Ingredient(models.Model):
 
 class Tag(models.Model):
     tag_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=50, null=True, unique=True)
+    value = models.CharField(max_length=50)
     color = models.CharField(max_length=30, null=True)
 
     def __str__(self):

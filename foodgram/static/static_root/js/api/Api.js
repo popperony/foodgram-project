@@ -3,7 +3,7 @@ class Api {
       this.apiUrl =  apiUrl;
   }
 getPurchases () {
-  return fetch(`/api/purchpurchases`, {
+  return fetch(`/api/purchases`, {
     headers: {
       'Content-Type': 'application/json',
       'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
@@ -17,7 +17,7 @@ getPurchases () {
     })
 }
 addPurchases (id) {
-  return fetch(`/api/purchpurchases`, {
+  return fetch(`/api/purchases`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ addPurchases (id) {
     })
 }
 removePurchases (id){
-  return fetch(`/api/purchpurchases/${id}`, {
+  return fetch(`/api/purchases/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,8 @@ removeSubscriptions (id) {
   return fetch(`/api/subscriptions/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
     }
   })
     .then( e => {

@@ -39,6 +39,7 @@ def profile(request, username):
 
 @login_required
 def new_recipe(request):
+    user = User.objects.get(username=request.user)
     if request.method == 'POST':
         form = RecipeForm(request.POST or None, files=request.FILES or None)
         ingredients = get_ingredients(request)
@@ -46,11 +47,14 @@ def new_recipe(request):
             form.add_error(None, 'Добавьте ингредиенты')
         elif form.is_valid():
             recipe = form.save(commit=False)
-            recipe.author = request.user
+            recipe.author = user
             recipe.save()
-            for i in ingredients:
-                RecipeIngredients.objects.create(amount=ingredients[i], ingredient=Ingredient.objects.get(ing_name=f'{i}'), recipe=recipe)
+            for ing_name, amount in ingredients.items():
+                ingredient = get_object_or_404(Ingredient, ing_name=ing_name)
+                recipe_ing = RecipeIngredients(amount=j, ingredient=ingredient, recipe=recipe)
+                recipe_ing.save()
             form.save_m2m()
+            print('---', form, '---')
             return redirect('index')
     else:
         form = RecipeForm()
@@ -66,13 +70,13 @@ def recipe_edit(request, recipe_id):
         form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
         ingredients = get_ingredients(request)
         if form.is_valid():
-            FollowRecipe.objects.filter(recipe=recipe).delete()
+            RecipeIngredients.objects.filter(recipe=recipe).delete()
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
             for item in ingredients:
-                FollowRecipe.objects.create(
-                    units=ingredients[item],
+                RecipeIngredients.objects.create(
+                    amount=ingredients[item],
                     ingredient=Ingredient.objects.get(name=f'{item}'),
                     recipe=recipe)
             form.save_m2m()
@@ -115,7 +119,7 @@ def follow_recipe(request, username):
     if tags:
         recipe_list = recipe_list.filter(
             tags=tags).distinct()
-    paginator = Paginator(recipe_list, 6)
+    paginator = Paginator(recipe_list, 8)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(request, 'favorite.html',
