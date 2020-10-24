@@ -1,6 +1,5 @@
-from .models import ShoppingList
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 
 User = get_user_model()
@@ -29,5 +28,7 @@ def get_ingredients(request):
     for key, ingredient_name in request.POST.items():
         if 'nameIngredient' in key:
             _ = key.split('_')
-            ingredients[ingredient_name] = int(request.POST[f'valueIngredient_{_[1]}'])
+            ingredients[ingredient_name] = int(request.POST[
+                f'valueIngredient_{_[1]}']
+            )
     return ingredients

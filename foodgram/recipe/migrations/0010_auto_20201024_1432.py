@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='followrecipe',
             name='follow_recipe',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favor', to='recipe.recipe'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favor', to='recipe.recipe'),  # noqa: E501
         ),
         migrations.AlterField(
             model_name='followrecipe',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favor_by', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favor_by', to=settings.AUTH_USER_MODEL),  # noqa: E501
         ),
     ]

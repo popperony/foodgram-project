@@ -1,5 +1,6 @@
 from django import template
 from django.http import QueryDict
+
 from recipe.models import Recipe, Tag, FollowRecipe, ShoppingList, Follow
 
 
@@ -11,23 +12,10 @@ def addclass(field, css):
     return field.as_widget(attrs={"class": css})
 
 
-@register.filter(name='rupluralize')
-def rupluralize(value, arg="комментарий,комментария,комментариев"):
-    args = arg.split(",")
-    number = abs(int(value))
-    a = number % 10
-    b = number % 100
-    if (a == 1) and (b != 11):
-        return args[0]
-    elif (a >= 2) and (a <= 4) and ((b < 10) or (b >= 20)):
-        return args[1]
-    else:
-        return args[2]
-
-
 @register.filter(name='get_filter_values')
 def get_filter_values(value):
     return value.getlist('filters')
+
 
 @register.filter(name='get_filter_link')
 def get_filter_link(request, tag):
@@ -44,7 +32,8 @@ def get_filter_link(request, tag):
 @register.filter(name='is_favorite')
 def is_favorite(recipe, user):
     return FollowRecipe.objects.filter(user=user, recipe=recipe).exists()
-    #return True
+    # return True
+
 
 @register.filter(name='is_shop')
 def is_shop(recipe, user):

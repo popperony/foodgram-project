@@ -24,12 +24,20 @@ class Tag(models.Model):
 
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Recipes')
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='Recipes'
+    )
     image = models.ImageField(upload_to='recipe/', blank=True, null=True)
     description = models.TextField()
     cooking_time = models.IntegerField()
     pub_date = models.DateTimeField("date published", auto_now_add=True)
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredients', through_fields=('recipe', 'ingredient'))
+    ingredients = models.ManyToManyField(
+        Ingredient,
+        through='RecipeIngredients',
+        through_fields=('recipe', 'ingredient')
+    )
     tag = models.ManyToManyField(Tag)
     slug = models.SlugField()
 
@@ -42,7 +50,11 @@ class Recipe(models.Model):
 
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='Ingredient')
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='Ingredient'
+    )
     amount = models.IntegerField()
 
     def __str__(self):
@@ -66,16 +78,32 @@ class Follow(models.Model):
 
 
 class FollowRecipe(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favor_by')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favor')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favor_by'
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='favor'
+    )
 
     def __str__(self):
         return self.follow_recipe.title
 
 
 class ShoppingList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Shopper')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='Shopping_list')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='Shopper'
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='Shopping_list'
+    )
 
     def __str__(self):
         return self.recipe.title

@@ -1,11 +1,18 @@
-from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View
+
 from .forms import RecipeForm
-from .models import Recipe, Ingredient, User, Follow, FollowRecipe, ShoppingList, RecipeIngredients
+from .models import (
+    Recipe,
+    Ingredient,
+    User,
+    Follow,
+    FollowRecipe,
+    ShoppingList,
+    RecipeIngredients
+)
 from .utils import gen_shopping_list, get_ingredients
 
 
@@ -18,8 +25,11 @@ def index(request):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
 
-    return render(request, 'index.html',
-        {'page': page, 'paginator': paginator, })
+    return render(
+        request,
+        'index.html',
+        {'page': page, 'paginator': paginator, }
+    )
 
 
 def profile(request, username):
@@ -31,9 +41,16 @@ def profile(request, username):
     paginator = Paginator(recipe_list, 9)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, 'profile.html',
-            {'profile': profile, 'recipe_list': recipe_list,
-            'page': page, 'paginator': paginator, })
+    return render(
+        request,
+        'profile.html',
+        {
+            'profile': profile,
+            'recipe_list': recipe_list,
+            'page': page,
+            'paginator': paginator
+        }
+    )
 
 
 @login_required
@@ -50,7 +67,11 @@ def new_recipe(request):
             recipe.save()
             for ing_name, amount in ingredients.items():
                 ingredient = get_object_or_404(Ingredient, title=ing_name)
-                recipe_ing = RecipeIngredients(recipe=recipe, ingredient=ingredient, amount=amount)
+                recipe_ing = RecipeIngredients(
+                    recipe=recipe,
+                    ingredient=ingredient,
+                    amount=amount
+                )
                 recipe_ing.save()
             form.save_m2m()
             return redirect('index')
@@ -65,7 +86,11 @@ def recipe_edit(request, recipe_id):
     if request.user != recipe.author:
         return redirect('recipe', recipe_id=recipe.id)
     if request.method == "POST":
-        form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
+        form = RecipeForm(
+            request.POST or None,
+            files=request.FILES or None,
+            instance=recipe
+        )
         ingredients = get_ingredients(request)
         if form.is_valid():
             RecipeIngredients.objects.filter(recipe=recipe).delete()
@@ -75,20 +100,34 @@ def recipe_edit(request, recipe_id):
             recipe.ingredients.all().delete()
             for ing_name, amount in ingredients.items():
                 ingredient = get_object_or_404(Ingredient, title=ing_name)
-                recipe_ing = RecipeIngredients(recipe=recipe, ingredient=ingredient, amount=amount)
+                recipe_ing = RecipeIngredients(
+                    recipe=recipe,
+                    ingredient=ingredient,
+                    amount=amount
+                )
                 recipe_ing.save()
             form.save_m2m()
             return redirect('index')
-    form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
-    return render(request, 'change_recipe.html',
-        {'form': form, 'recipe': recipe, })
+    form = RecipeForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=recipe
+    )
+    return render(
+        request,
+        'change_recipe.html',
+        {'form': form, 'recipe': recipe, }
+    )
 
 
 def recipe_view(request, recipe_id, username):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     profile = get_object_or_404(User, username=username)
-    return render(request, 'recipe.html',
-        {'profile': profile, 'recipe': recipe, })
+    return render(
+        request,
+        'recipe.html',
+        {'profile': profile, 'recipe': recipe, }
+    )
 
 
 @login_required
@@ -106,8 +145,11 @@ def follow(request, username):
     paginator = Paginator(author_list, 9)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, 'follow.html',
-        {'page': page, 'paginator': paginator, 'authors':author_list,})
+    return render(
+        request,
+        'follow.html',
+        {'page': page, 'paginator': paginator, 'authors': author_list}
+    )
 
 
 @login_required
@@ -119,12 +161,20 @@ def follow_recipe(request, username):
     paginator = Paginator(recipe_list, 9)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, 'favorite.html', {'page': page, 'paginator': paginator, })
+    return render(
+        request,
+        'favorite.html',
+        {'page': page, 'paginator': paginator, }
+    )
 
 
 def shopping_list(request):
     shopping_list = ShoppingList.objects.filter(user=request.user).all()
-    return render(request, 'shopping-list.html', {'shopping_list': shopping_list,})
+    return render(
+        request,
+        'shopping-list.html',
+        {'shopping_list': shopping_list}
+    )
 
 
 @login_required
@@ -132,5 +182,6 @@ def download(request):
     result = gen_shopping_list(request)
     filename = 'ingredients.txt'
     response = HttpResponse(result, content_type='text/plain')
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    response['Content-Disposition'] = \
+        'attachment; filename={0}'.format(filename)
     return response

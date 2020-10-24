@@ -11,7 +11,10 @@ def counter(request):
 
 def shop(request):
     if request.user.is_authenticated:
-        shop_list = ShoppingList.objects.filter(user=request.user).values_list('recipe_id', flat=True)
+        shop_list = ShoppingList.objects.filter(user=request.user).values_list(
+            'recipe_id',
+            flat=True
+        )
 
     else:
         shop_list = []

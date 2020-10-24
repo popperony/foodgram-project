@@ -1,10 +1,9 @@
 requests
+black
 django
 pytest
 pytest-django
-djangorestframework
-djangorestframework-simplejwt
-drf-nested-routers
+gunicorn==20.0.4
 asgiref==3.2.10
 astroid==2.4.2
 django-debug-toolbar==2.2

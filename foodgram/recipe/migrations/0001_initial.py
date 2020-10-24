@@ -17,22 +17,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ingredient',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ing_name', models.CharField(blank=True, max_length=255, null=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
+                ('ing_name', models.CharField(blank=True, max_length=255, null=True)),  # noqa: E501
                 ('dimension', models.CharField(max_length=5)),
             ],
         ),
         migrations.CreateModel(
             name='Recipe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
                 ('title', models.CharField(max_length=255)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='recipe/')),
+                ('image', models.ImageField(blank=True, null=True, upload_to='recipe/')),  # noqa: E501
                 ('description', models.TextField()),
                 ('cooking_time', models.IntegerField()),
-                ('pub_date', models.DateTimeField(auto_now_add=True, verbose_name='date published')),
+                ('pub_date', models.DateTimeField(auto_now_add=True, verbose_name='date published')),  # noqa: E501
                 ('slug', models.SlugField()),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Recipes', to=settings.AUTH_USER_MODEL)),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Recipes', to=settings.AUTH_USER_MODEL)),  # noqa: E501
             ],
             options={
                 'ordering': ['-pub_date'],
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
                 ('tag_name', models.CharField(max_length=255)),
                 ('value', models.CharField(max_length=50)),
                 ('color', models.CharField(max_length=30, null=True)),
@@ -50,24 +50,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShoppingList',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Shopping_list', to='recipe.Recipe')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Shopper', to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
+                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Shopping_list', to='recipe.Recipe')),  # noqa: E501
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Shopper', to=settings.AUTH_USER_MODEL)),  # noqa: E501
             ],
         ),
         migrations.CreateModel(
             name='RecipeIngredients',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
                 ('amount', models.IntegerField()),
-                ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Ingredient', to='recipe.Ingredient')),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.Recipe')),
+                ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Ingredient', to='recipe.Ingredient')),  # noqa: E501
+                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.Recipe')),  # noqa: E501
             ],
         ),
         migrations.AddField(
             model_name='recipe',
             name='ingredients',
-            field=models.ManyToManyField(through='recipe.RecipeIngredients', to='recipe.Ingredient'),
+            field=models.ManyToManyField(through='recipe.RecipeIngredients', to='recipe.Ingredient'),  # noqa: E501
         ),
         migrations.AddField(
             model_name='recipe',
@@ -77,17 +77,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FollowRecipe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('follow_recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.Recipe')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
+                ('follow_recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.Recipe')),  # noqa: E501
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),  # noqa: E501
             ],
         ),
         migrations.CreateModel(
             name='Follow',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='following', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='follower', to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # noqa: E501
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='following', to=settings.AUTH_USER_MODEL)),  # noqa: E501
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='follower', to=settings.AUTH_USER_MODEL)),  # noqa: E501
             ],
         ),
     ]
