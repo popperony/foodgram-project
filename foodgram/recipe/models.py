@@ -6,20 +6,20 @@ User = get_user_model()
 
 
 class Ingredient(models.Model):
-    ing_name = models.CharField(max_length=255, null=True, blank=True)
-    dimension = models.CharField(max_length=5)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    dimension = models.CharField(max_length=5, null=True, blank=True)
 
     def __str__(self):
-        return self.ing_name
+        return self.title
 
 
 class Tag(models.Model):
-    tag_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     value = models.CharField(max_length=50)
     color = models.CharField(max_length=30, null=True)
 
     def __str__(self):
-        return self.tag_name
+        return self.name
 
 
 class Recipe(models.Model):
@@ -29,8 +29,8 @@ class Recipe(models.Model):
     description = models.TextField()
     cooking_time = models.IntegerField()
     pub_date = models.DateTimeField("date published", auto_now_add=True)
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredients')
-    tags = models.ManyToManyField(Tag, blank=True)
+    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredients', through_fields=('recipe', 'ingredient'))
+    tag = models.ManyToManyField(Tag)
     slug = models.SlugField()
 
     def __str__(self):

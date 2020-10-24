@@ -8,7 +8,10 @@ import json
 class Ingredients(View):
     def get(self, request):
         text = request.GET['query']
-        ingredients = list(Ingredient.objects.filter(title__icontains=text).values('ing_name', 'dimension'))
+        print('####################', text)
+        ingredients = list(Ingredient.objects.filter(title__icontains=text).values('title', 'dimension'))
+        print('####################', ingredients)
+        print('####################', JsonResponse(ingredients, safe=False))
         return JsonResponse(ingredients, safe=False)
 
 

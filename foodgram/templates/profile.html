@@ -15,7 +15,7 @@
                         <li class="tags__item">
                             <a
                                 id="{{ tag.pk }}"
-                                class="tags__checkbox tags__checkbox_style_{{ tag.style }}
+                                class="tags__checkbox tags__checkbox_style_{{ tag.color }}
                                 {% if tag.value in request.GET|get_filter_values %} tags__checkbox_active {% endif %}"
                                 href="{% url 'profile' profile.username %}?{{ request|get_filter_link:tag }}"></a>
                             <span class="tags__label">{{ tag.name }}</span>
@@ -47,12 +47,12 @@
                 <ul class="card__items">
                     <ul class="card__items">
                         {% for tag in recipe.tag.all %}
-                        <li class="card__item"><span class="badge badge_style_{{ tag.style }}">{{ tag.name }}</span></li>
+                        <li class="card__item"><span class="badge badge_style_{{ tag.color }}">{{ tag.name }}</span></li>
                         {% endfor %}
                     </ul>
                 </ul>
                 <div class="card__items card__items_column">
-                    <p class="card__text"><span class="icon-time"></span> {{ recipe.duration }} мин.</p>
+                    <p class="card__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
                     <p class="card__text"><span class="icon-user"></span> <a href="{% url 'profile' recipe.author.username %}" style="color: black">{{ recipe.author.first_name }} {{ recipe.author.last_name }}</a></p>
                 </div>
             </div>

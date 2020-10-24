@@ -24,7 +24,7 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')
     readonly_fields = ('count_follow_recipes_now', 'pub_date')
     empty_value_display = 'None'
-    list_filter = ('author', 'title', 'tags')
+    list_filter = ('author', 'title', 'tag')
     formfield_overrides = {
         models.ManyToManyField: {'widget': CheckboxSelectMultiple},
     }
@@ -33,15 +33,15 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'ing_name', 'dimension')
-    search_fields = ('ing_name',)
-    list_filter = ('ing_name',)
+    list_display = ('pk', 'title', 'dimension')
+    search_fields = ('title',)
+    list_filter = ('title',)
     empty_value_display = 'None'
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'tag_name', 'value')
+    list_display = ('pk', 'name', 'value')
     empty_value_display = 'None'
 
 

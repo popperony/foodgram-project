@@ -38,7 +38,6 @@ def get_filter_link(request, tag):
         new_request.setlist('filters', filters)
     else:
         new_request.appendlist('filters', tag.value)
-    
     return new_request.urlencode()
 
 
