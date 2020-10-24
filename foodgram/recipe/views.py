@@ -113,14 +113,13 @@ def follow(request, username):
 @login_required
 def follow_recipe(request, username):
     tag = request.GET.getlist('filters')
-    recipe_list = Recipe.objects.filter(author=request.user.id).all()
+    recipe_list = Recipe.objects.filter(favor__user__id=request.user.id).all()
     if tag:
         recipe_list = recipe_list.filter(tag__value__in=tag).distinct()
     paginator = Paginator(recipe_list, 9)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, 'favorite.html',
-        {'page': page, 'paginator': paginator, })
+    return render(request, 'favorite.html', {'page': page, 'paginator': paginator, })
 
 
 def shopping_list(request):

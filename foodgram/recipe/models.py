@@ -66,8 +66,8 @@ class Follow(models.Model):
 
 
 class FollowRecipe(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    follow_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favor_by')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favor')
 
     def __str__(self):
         return self.follow_recipe.title

@@ -19,7 +19,7 @@ class Favorites(View):
     def post(self, request):
         recipe_id = json.loads(request.body)['id']
         recipe = get_object_or_404(Recipe, id=recipe_id)
-        FollowRecipe.objects.get_or_create(user=request.user, follow_recipe=recipe)
+        FollowRecipe.objects.get_or_create(user=request.user, recipe=recipe)
         return JsonResponse({'success': True})
 
     def delete(self, request, recipe_id):

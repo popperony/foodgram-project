@@ -8,19 +8,19 @@ User = get_user_model()
 
 def gen_shopping_list(request):
     shopper = get_object_or_404(User, username=request.user.username)
-    shopping_list = shopper.shopper.all()
+    shopping_list = shopper.Shopper.all()
     ingredients = {}
     for item in shopping_list:
-        for amount in item.recipe.amount_set.all():
-            name = f'{amount.ingredient.title} ({amount.ingredient.dimension})'
-            units = amount.units
+        for j in item.recipe.recipeingredients_set.all():
+            name = f'{j.ingredient.title} ({j.ingredient.dimension})'
+            amount = j.amount
             if name in ingredients.keys():
-                ingredients[name] += units
+                ingredients[name] += amount
             else:
-                ingredients[name] = units
+                ingredients[name] = amount
     result = []
-    for key, units in ingredients.item():
-        result.append(f'{key} - {units}')
+    for key, amount in ingredients.items():
+        result.append(f'{key} - {amount}')
     return result
 
 

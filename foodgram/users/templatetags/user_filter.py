@@ -42,9 +42,9 @@ def get_filter_link(request, tag):
 
 
 @register.filter(name='is_favorite')
-def is_favorite(follow_recipe, user):
-    return FollowRecipe.objects.filter(user=user, follow_recipe=follow_recipe).exists()
-
+def is_favorite(recipe, user):
+    return FollowRecipe.objects.filter(user=user, recipe=recipe).exists()
+    #return True
 
 @register.filter(name='is_shop')
 def is_shop(recipe, user):

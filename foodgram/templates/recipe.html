@@ -25,7 +25,7 @@
                     </ul>
                 </ul>
                 <div class="single-card__items single-card__items_column">
-                    <p class="single-card__text"><span class="icon-time"></span> {{recipe.cooking_time}} мин.</p>
+                    <p class="single-card__text"><span class="icon-time"></span> {{recipe.cooking_time}} мин!!!.</p>
                     <ul class="single-card__items">
                         <p class="card__text"><span class="icon-user"></span> <a href="{% url 'profile' recipe.author.username %}" style="color: black">{{ recipe.author.first_name }}</a></p>
                         {% if user == recipe.author %}
