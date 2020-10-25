@@ -1,4 +1,4 @@
-name: CIFG
+name: Continuous_Integration_FoodGram
 
 on: [push]
 
