@@ -1,3 +1,5 @@
+![Continuous_Integration_FoodGram Actions Status](https://github.com/popperony/foodgram-project/workflows/CIFG/badge.svg)
+
 ## Сайт "Продуктовый помощник FoodGram"
 
 
