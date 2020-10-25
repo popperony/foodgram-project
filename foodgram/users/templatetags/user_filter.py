@@ -1,7 +1,6 @@
 from django import template
-from django.http import QueryDict
 
-from recipe.models import Recipe, Tag, FollowRecipe, ShoppingList, Follow
+from recipe.models import FollowRecipe, ShoppingList, Follow
 
 
 register = template.Library()

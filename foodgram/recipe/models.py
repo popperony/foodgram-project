@@ -7,7 +7,7 @@ User = get_user_model()
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
-    dimension = models.CharField(max_length=5, null=True, blank=True)
+    dimension = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -27,7 +27,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='Recipes'
+        related_name='Recipe'
     )
     image = models.ImageField(upload_to='recipe/', blank=True, null=True)
     description = models.TextField()

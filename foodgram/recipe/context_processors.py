@@ -1,4 +1,4 @@
-from .models import Recipe, Tag, FollowRecipe, ShoppingList
+from .models import Tag, ShoppingList
 
 
 def counter(request):

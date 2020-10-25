@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from django.db import models
 from django.forms import CheckboxSelectMultiple
 from recipe.models import (
@@ -20,14 +19,14 @@ class RecipeIngredientInline(admin.TabularInline):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    def count_follow_recipes_now(self, obj):
+    def count_follow_recipe_now(self, obj):
         return obj.FollowRecipe_set.count()
 
-    count_follow_recipes_now.short_description = 'Counter follow recipes'
+    count_follow_recipe_now.short_description = 'Counter follow recipe'
 
     list_display = ('title', 'author', 'pub_date')
     search_fields = ('title', 'author')
-    readonly_fields = ('count_follow_recipes_now', 'pub_date')
+    readonly_fields = ('count_follow_recipe_now', 'pub_date')
     empty_value_display = 'None'
     list_filter = ('author', 'title', 'tag')
     formfield_overrides = {
@@ -63,7 +62,7 @@ class RecipeIngredientAdmin(admin.ModelAdmin):
 
 
 @admin.register(FollowRecipe)
-class FollowRecipesAdmin(admin.ModelAdmin):
+class FollowRecipeAdmin(admin.ModelAdmin):
     list_display = ('pk',)
     empty_value_display = 'None'
 

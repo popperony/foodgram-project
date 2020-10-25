@@ -2,7 +2,6 @@
 from django.db import migrations
 import os
 import csv
-from pathlib import Path
 
 
 def get_ingredients(apps, schema_editor):

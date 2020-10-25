@@ -9,7 +9,6 @@ from .models import (
     Ingredient,
     User,
     Follow,
-    FollowRecipe,
     ShoppingList,
     RecipeIngredients
 )
