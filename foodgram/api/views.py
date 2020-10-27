@@ -21,7 +21,6 @@ class Ingredients(View):
                 "title", "dimension"
             )
         )
-        print("##", ingredients)
         return JsonResponse(ingredients, safe=False)
 
 
