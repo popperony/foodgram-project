@@ -25,11 +25,14 @@
             </ul>
         </div>
         <div class="card-list">
+            
             {% for recipe in page %}
                 {% include 'recipe_item.html' %}
             {% endfor %}
         </div>
-        {% include 'paginator.html' %}
+            {% if page.has_other_pages %}
+                {% include 'paginator.html' %}
+            {% endif %}
     </main>
  
 <script src="{% static 'js/config/config.js' %}"></script>

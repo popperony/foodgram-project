@@ -22,8 +22,7 @@
                         {% block subs %}<li class="nav__item">{% endblock %}<a href="{% url 'follow' user.username %}" class="nav__link link">Мои подписки</a></li>
                         {% block new_recipe %}<li class="nav__item">{% endblock %}<a href="{% url 'new_recipe' %}" class="nav__link link">Создать рецепт</a></li>
                         {% block favorites %}<li class="nav__item">{% endblock %}<a href="{% url 'followrecipe' user.username %}" class="nav__link link">Избранное</a></li>
-                        {% block shop %}<li class="nav__item">{% endblock %}<a href="{% url 'shopping-list' %}" class="nav__link link">Список покупок</a> <span class="badge badge_style_blue nav__badge" id="counter">{{ count }}</span></li>
-        
+                        {% block shop %}<li class="nav__item">{% endblock %}<a href="{% url 'shopping-list' %}" class="nav__link link">Список покупок</a> <span  class="badge badge_style_blue nav__badge" id="counter">{% if count %}{{ count }}{% endif %}</span></li>
                     </ul>
                     <ul class="nav__items list">
                         {% block pass_change %}<li class="nav__item">{% endblock %}<a href="{% url 'password_change' %}" class="nav__link link">Изменить пароль</a></li>

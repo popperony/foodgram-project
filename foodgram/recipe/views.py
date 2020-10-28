@@ -15,12 +15,16 @@ from .models import (
 from .utils import gen_shopping_list, get_ingredients
 
 
+# Количество рецептов на странице
+PAGES = 9
+
+
 def index(request):
     tag = request.GET.getlist('filters')
     recipe_list = Recipe.objects.all()
     if tag:
         recipe_list = recipe_list.filter(tag__value__in=tag).distinct().all()
-    paginator = Paginator(recipe_list, 9)
+    paginator = Paginator(recipe_list, PAGES)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
 
@@ -37,7 +41,7 @@ def profile(request, username):
     recipe_list = Recipe.objects.filter(author=profile.pk).all()
     if tag:
         recipe_list = recipe_list.filter(tag__value__in=tag)
-    paginator = Paginator(recipe_list, 9)
+    paginator = Paginator(recipe_list, PAGES)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
@@ -141,7 +145,7 @@ def recipe_delete(request, recipe_id):
 def follow(request, username):
     user = get_object_or_404(User, username=username)
     author_list = Follow.objects.filter(user=user).all()
-    paginator = Paginator(author_list, 9)
+    paginator = Paginator(author_list, PAGES)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
@@ -157,7 +161,7 @@ def follow_recipe(request, username):
     recipe_list = Recipe.objects.filter(favor__user__id=request.user.id).all()
     if tag:
         recipe_list = recipe_list.filter(tag__value__in=tag).distinct()
-    paginator = Paginator(recipe_list, 9)
+    paginator = Paginator(recipe_list, PAGES)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
