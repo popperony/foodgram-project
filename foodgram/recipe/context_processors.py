@@ -5,7 +5,7 @@ def counter(request):
     if request.user.is_authenticated:
         count = ShoppingList.objects.filter(user=request.user).count()
     else:
-        count = []
+        count = 0
     return {'count': count}
 
 

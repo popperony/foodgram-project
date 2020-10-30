@@ -15,7 +15,7 @@ from recipe.models import (
 
 class Ingredients(View):
     def get(self, request):
-        text = request.GET["query"]
+        text = request.GET.get("query")
         ingredients = list(
             Ingredient.objects.filter(title__icontains=text).values(
                 "title", "dimension"
@@ -26,7 +26,7 @@ class Ingredients(View):
 
 class Favorites(View):
     def post(self, request):
-        recipe_id = json.loads(request.body)["id"]
+        recipe_id = json.loads(request.body).get("id")
         recipe = get_object_or_404(Recipe, id=recipe_id)
         FollowRecipe.objects.get_or_create(user=request.user, recipe=recipe)
         return JsonResponse({"success": True})
@@ -41,7 +41,7 @@ class Favorites(View):
 
 class Purchases(View):
     def post(self, request):
-        recipe_id = json.loads(request.body)["id"]
+        recipe_id = json.loads(request.body).get("id")
         recipe = get_object_or_404(Recipe, id=recipe_id)
         ShoppingList.objects.get_or_create(user=request.user, recipe=recipe)
         return JsonResponse({"success": True})
@@ -56,7 +56,7 @@ class Purchases(View):
 
 class Subscription(View):
     def post(self, request):
-        author_id = json.loads(request.body)["id"]
+        author_id = json.loads(request.body).get("id")
         author = get_object_or_404(User, id=author_id)
         Follow.objects.get_or_create(user=request.user, author=author)
         return JsonResponse({"success": True})

@@ -7,7 +7,7 @@ import csv
 def get_ingredients(apps, schema_editor):
     Ingredient = apps.get_model('recipe', 'Ingredient')
 
-    csv_file = os.path.join('ingredients.csv')
+    csv_file = os.path.join('fixtures/ingredients.csv')
     data = csv.reader(open(csv_file, encoding='UTF-8'), delimiter=',')
     try:
         obj_list = [
@@ -27,7 +27,7 @@ def get_ingredients(apps, schema_editor):
 def get_tags(apps, schema_editor):
     Tag = apps.get_model('recipe', 'Tag')
 
-    csv_file = os.path.join('tags.csv')
+    csv_file = os.path.join('fixtures/tags.csv')
     data = csv.reader(open(csv_file, encoding='utf-8'), delimiter=',')
     try:
         obj_list = [
